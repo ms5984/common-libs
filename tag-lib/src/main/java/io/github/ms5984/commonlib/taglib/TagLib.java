@@ -24,12 +24,13 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TagLib {
     /**
-     * Process a string with ampersand codes, replacing them with MiniMessage tags.
+     * Process a string, replacing its ampersand color and format codes
+     * with the appropriate MiniMessage tags.
      *
      * @param input an input string
-     * @return an ampersand text processor
+     * @return a legacy text processor for ampersand codes
      */
-    public static AmpersandTextProcessor ampersand(@NotNull String input) {
+    public static LegacyTextProcessor ampersand(@NotNull String input) {
         return new AmpersandTextProcessor(input);
     }
 

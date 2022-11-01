@@ -29,7 +29,7 @@ import static io.github.ms5984.commonlib.taglib.TagLib.tagFromAmpersand;
  *
  * @since 0.0.1
  */
-public final class AmpersandTextProcessor {
+public final class AmpersandTextProcessor implements LegacyTextProcessor {
     /**
      * Matches all ampersand-based color, format, and hex codes.
      */
@@ -40,47 +40,12 @@ public final class AmpersandTextProcessor {
         this.input = input;
     }
 
-    /**
-     * Replace all ampersand codes in the input string with the respective
-     * MiniMessage tags, applying overrides to cancel out Minecraft's
-     * default display name styling (italics).
-     *
-     * @return a processed string
-     * @see #prependProcess(String)
-     */
-    public @NotNull String displayNameOverride() {
-        return prependProcess("<!i>"); // override MC-default italics
-    }
-
-    /**
-     * Replace all ampersand codes in the input string with the respective
-     * MiniMessage tags, applying overrides to cancel out Minecraft's
-     * default lore line styling (italics, dark_purple).
-     *
-     * @return a processed string
-     * @see #prependProcess(String)
-     */
-    public @NotNull String loreLineOverride() {
-        return prependProcess("<!i><white>"); // override MC-default italics + dark_purple
-    }
-
-    /**
-     * Replace all legacy codes in the input string
-     * with the appropriate MiniMessage tag(s).
-     *
-     * @return a processed string
-     */
+    @Override
     public @NotNull String process() {
         return process_(null);
     }
 
-    /**
-     * Replace all legacy codes in the input string with the respective
-     * MiniMessage tags, prepending a given set of overrides.
-     *
-     * @param overrides MiniMessage tags to prepend
-     * @return a processed string
-     */
+    @Override
     public @NotNull String prependProcess(@NotNull String overrides) {
         return process_(overrides);
     }
