@@ -69,6 +69,7 @@ public class TagLib {
      * @param code the legacy code
      * @param close false for an opening tag, true for a closing tag
      * @return a MiniMessage tag
+     * @since 0.0.2
      */
     public static String tagFromLegacy(String code, boolean close) {
         final StringBuilder sb = new StringBuilder("<");
