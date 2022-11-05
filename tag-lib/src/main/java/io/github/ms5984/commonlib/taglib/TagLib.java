@@ -44,8 +44,33 @@ public class TagLib {
      * @param code the ampersand code
      * @param close false for an opening tag, true for a closing tag
      * @return a MiniMessage tag
+     * @implNote As of tag-lib version 0.0.2, this method properly
+     * tolerates the leading ampersand.
      */
     public static String tagFromAmpersand(String code, boolean close) {
+        switch (code.length()) {
+            case 2, 8 -> {
+                if (code.charAt(0) == '&') {
+                    // skip leading ampersand if present
+                    return tagFromLegacy(code.substring(1), close);
+                }
+            }
+        }
+        return tagFromLegacy(code, close);
+    }
+
+    /**
+     * Convert a legacy code to its respective MiniMessage tag.
+     * <p>
+     * Supports legacy color codes, legacy format codes, and hex colors.
+     * <p>
+     * Hex colors must be in the format {@code #RRGGBB}.
+     *
+     * @param code the legacy code
+     * @param close false for an opening tag, true for a closing tag
+     * @return a MiniMessage tag
+     */
+    public static String tagFromLegacy(String code, boolean close) {
         final StringBuilder sb = new StringBuilder("<");
         if (close) sb.append('/');
         if (code.length() == 7) {
@@ -78,7 +103,7 @@ public class TagLib {
             case 'n' -> "underline";
             case 'o' -> "italic";
             case 'r' -> "reset";
-            default -> throw new IllegalStateException("Unexpected value: " + code);
+            default -> throw new IllegalArgumentException("Unexpected value: " + code);
         }).append(">").toString();
     }
 }
