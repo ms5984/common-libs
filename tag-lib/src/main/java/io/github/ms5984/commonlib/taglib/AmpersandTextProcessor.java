@@ -22,7 +22,7 @@ import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static io.github.ms5984.commonlib.taglib.TagLib.tagFromAmpersand;
+import static io.github.ms5984.commonlib.taglib.TagLib.tagFromLegacy;
 
 /**
  * Processes ampersand codes in a text string.
@@ -64,13 +64,13 @@ public final class AmpersandTextProcessor implements LegacyTextProcessor {
                 // if we find a color code, close all active formats
                 case 'a', 'b', 'c', 'd', 'e', 'f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '#' -> {
                     match.appendReplacement(sb, activeFormats.stream()
-                            .map(format -> tagFromAmpersand(format, true))
-                            .collect(Collectors.joining()) + tagFromAmpersand(group, false));
+                            .map(format -> tagFromLegacy(format, true))
+                            .collect(Collectors.joining()) + tagFromLegacy(group, false));
                     activeFormats.clear();
                     continue;
                 }
             }
-            match.appendReplacement(sb, tagFromAmpersand(group, false));
+            match.appendReplacement(sb, tagFromLegacy(group, false));
         }
         match.appendTail(sb);
         return sb.toString();
