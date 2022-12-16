@@ -24,11 +24,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public interface LegacyTextProcessor {
     /**
-     * Replace all legacy codes in the input string with the respective
-     * MiniMessage tags, applying overrides to cancel out Minecraft's
-     * default display name styling (italics).
+     * Replaces each legacy code in the input string with an equivalent
+     * MiniMessage tag and prepends a tag to cancel out Minecraft's
+     * default display name styling of italics.
      *
      * @return a processed string
+     * @implSpec Display names are rendered by default with {@code italic}
+     * styles in Minecraft. Implementations should use one or more MiniMessage
+     * tags to cancel out that styling.
+     * @implNote The default implementation uses {@code <!i>}.
      * @see #prependProcess(String)
      */
     default @NotNull String displayNameOverride() {
@@ -36,11 +40,16 @@ public interface LegacyTextProcessor {
     }
 
     /**
-     * Replace all legacy codes in the input string with the respective
-     * MiniMessage tags, applying overrides to cancel out Minecraft's
-     * default lore line styling (italics, dark_purple).
+     * Replaces each legacy code in the input string with an equivalent
+     * MiniMessage tag and prepends tags to cancel out Minecraft's
+     * default lore line styling of italics and dark purple color.
      *
      * @return a processed string
+     * @implSpec Lore (and thus each line) are rendered by default with
+     * {@code italic}, {@code dark_purple} styles in Minecraft.
+     * Implementations should use one or more MiniMessage tags to cancel out
+     * that styling.
+     * @implNote The default implementation uses {@code <!i><white>}.
      * @see #prependProcess(String)
      */
     default @NotNull String loreLineOverride() {
@@ -48,19 +57,20 @@ public interface LegacyTextProcessor {
     }
 
     /**
-     * Replace all legacy codes in the input string
-     * with the respective MiniMessage tags.
+     * Replaces each legacy code in the input string with an equivalent
+     * MiniMessage tag.
      *
      * @return a processed string
      */
     @NotNull String process();
 
     /**
-     * Replace all legacy codes in the input string with the respective
-     * MiniMessage tags, prepending a given set of overrides.
+     * Replaces each legacy code in the input string with an equivalent
+     * MiniMessage tag and prepends an arbitrary string {@code prefix}
+     * contain additional tags to assist processing.
      *
-     * @param overrides MiniMessage tags to prepend
+     * @param prefix MiniMessage tags to prepend
      * @return a processed string
      */
-    @NotNull String prependProcess(@NotNull String overrides);
+    @NotNull String prependProcess(@NotNull String prefix);
 }

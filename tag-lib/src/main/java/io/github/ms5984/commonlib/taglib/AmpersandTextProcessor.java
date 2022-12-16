@@ -46,8 +46,8 @@ public final class AmpersandTextProcessor implements LegacyTextProcessor {
     }
 
     @Override
-    public @NotNull String prependProcess(@NotNull String overrides) {
-        return process_(overrides);
+    public @NotNull String prependProcess(@NotNull String prefix) {
+        return process_(prefix);
     }
 
     private @NotNull String process_(String overrides) {

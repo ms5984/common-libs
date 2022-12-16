@@ -24,8 +24,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TagLib {
     /**
-     * Process a string, replacing its ampersand color and format codes
-     * with the appropriate MiniMessage tags.
+     * Gets an ampersand code text utility for the given input.
      *
      * @param input an input string
      * @return a legacy text processor for ampersand codes
@@ -35,7 +34,7 @@ public class TagLib {
     }
 
     /**
-     * Convert an ampersand code to its respective MiniMessage tag.
+     * Converts an ampersand code to its compatible MiniMessage tag.
      * <p>
      * Supports legacy color codes, legacy format codes, and hex colors.
      * <p>
@@ -47,7 +46,7 @@ public class TagLib {
      * @implNote As of tag-lib version 0.0.2, this method properly
      * tolerates the leading ampersand.
      */
-    public static String tagFromAmpersand(String code, boolean close) {
+    public static @NotNull String tagFromAmpersand(@NotNull String code, boolean close) {
         switch (code.length()) {
             case 2, 8 -> {
                 if (code.charAt(0) == '&') {
@@ -60,7 +59,7 @@ public class TagLib {
     }
 
     /**
-     * Convert a legacy code to its respective MiniMessage tag.
+     * Converts a legacy code to a compatible MiniMessage color or format tag.
      * <p>
      * Supports legacy color codes, legacy format codes, and hex colors.
      * <p>
@@ -69,9 +68,10 @@ public class TagLib {
      * @param code the legacy code
      * @param close false for an opening tag, true for a closing tag
      * @return a MiniMessage tag
+     * @throws IllegalArgumentException if {@code code} is invalid
      * @since 0.0.2
      */
-    public static String tagFromLegacy(String code, boolean close) {
+    public static @NotNull String tagFromLegacy(@NotNull String code, boolean close) {
         final StringBuilder sb = new StringBuilder("<");
         if (close) sb.append('/');
         if (code.length() == 7) {
